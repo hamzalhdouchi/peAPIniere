@@ -12,4 +12,9 @@ class plant extends Model
     {
         return $this->belongsTo(categorie::class);
     }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
