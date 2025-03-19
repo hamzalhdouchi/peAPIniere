@@ -2,64 +2,102 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\plant;
+use App\Repositories\PlanteRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $planteRepository;
+
+    public function __construct(PlanteRepositoryInterface $planteRepository)
+    {
+        $this->planteRepository = $planteRepository;
+    }
+
     public function index()
     {
-        //
+        $plantes = $this->planteRepository->getAll();
+
+        return response()->json([
+            'success' => true,
+            'data' => $plantes
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nomPlante' => 'required',
+            'description' => 'required',
+            'ptrc' => 'required|numeric',
+            'images' => 'nullable|string',
+        ]);
+
+        $plante = $this->planteRepository->create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Plante ajoutée avec succès',
+            'data' => $plante
+        ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(plant $plant)
+    public function show($id)
     {
-        //
+        $plante = $this->planteRepository->getById($id);
+
+        if (!$plante) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Plante non trouvée'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $plante
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(plant $plant)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nomPlante' => 'required',
+            'description' => 'required',
+            'ptrc' => 'required|numeric',
+            'images' => 'nullable|string',
+        ]);
+
+        $plante = $this->planteRepository->update($id, $request->all());
+
+        if (!$plante) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Plante non trouvée'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Plante mise à jour avec succès',
+            'data' => $plante
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, plant $plant)
+    public function destroy($id)
     {
-        //
-    }
+        $deleted = $this->planteRepository->delete($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(plant $plant)
-    {
-        //
+        if (!$deleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Plante non trouvée'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Plante supprimée avec succès'
+        ]);
     }
 }
