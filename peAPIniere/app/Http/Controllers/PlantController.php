@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PlantStorRequest;
 use App\Repositories\PlanteRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -24,14 +25,9 @@ class PlantController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(PlantStorRequest $request)
     {
-        $request->validate([
-            'nomPlante' => 'required',
-            'description' => 'required',
-            'ptrc' => 'required|numeric',
-            'images' => 'nullable|string',
-        ]);
+        $request->validated();
 
         $plante = $this->planteRepository->create($request->all());
 
@@ -61,12 +57,7 @@ class PlantController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nomPlante' => 'required',
-            'description' => 'required',
-            'ptrc' => 'required|numeric',
-            'images' => 'nullable|string',
-        ]);
+        $request->validated();
 
         $plante = $this->planteRepository->update($id, $request->all());
 
