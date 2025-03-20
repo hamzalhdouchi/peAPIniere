@@ -20,6 +20,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -50,17 +51,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(plant::class);
     }
 
-    /**
-     * Obtenir l'identifiant JWT.
-     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Retourne un tableau des revendications JWT personnalisées.
-     */
     public function getJWTCustomClaims()
     {
         return [];

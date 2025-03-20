@@ -11,7 +11,7 @@ class PlantStorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class PlantStorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom_Plante' => 'required',
+            'nomPlante' => 'required',
             'description' => 'required',
             'ptrc' => 'required|numeric',
             'images' => 'nullable|string',

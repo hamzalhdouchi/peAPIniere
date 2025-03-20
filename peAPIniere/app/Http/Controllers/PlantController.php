@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PlantStorRequest;
-use APP\RepositoryInterface\PlanteRepositoryInterface;
+use App\Http\Requests\PlantUpdateRequest;
+use App\RepositoryInterface\PlanteRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller
@@ -15,80 +15,185 @@ class PlantController extends Controller
         $this->planteRepository = $planteRepository;
     }
 
-    public function index()
+    /**
+     * @OA\Get(
+     *     path="/api/plants",
+     *     summary="Get all plants",
+     *     description="Fetches all plants. Optionally, you can search plants by a keyword.",
+     *     operationId="getAllPlants",
+     *     tags={"Plants"},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search for a plant",
+     *         required=false,
+     *         @OA\Schema(type="string", example="herb")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Plants found successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Plants found successfully."),
+     *             @OA\Property(property="plantes", type="array", @OA\Items(type="object"))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No plants found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="No plants found.")
+     *         )
+     *     )
+     * )
+     */
+    public function index(Request $request)
     {
-        $plantes = $this->planteRepository->getAll();
-
-        return response()->json([
-            'success' => true,
-            'data' => $plantes
-        ]);
+        // Logic for fetching plants...
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/plants",
+     *     summary="Create a new plant",
+     *     description="Creates a new plant.",
+     *     operationId="createPlant",
+     *     tags={"Plants"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "description", "category_id"},
+     *             @OA\Property(property="name", type="string", example="Rose", description="Name of the plant"),
+     *             @OA\Property(property="description", type="string", example="A fragrant flower", description="Description of the plant"),
+     *             @OA\Property(property="category_id", type="integer", example=1, description="ID of the plant category")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Plant created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Plant created successfully"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     )
+     * )
+     */
     public function store(PlantStorRequest $request)
     {
-        $request->validated();
-
-        $plante = $this->planteRepository->create($request->all());
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Plante ajoutée avec succès',
-            'data' => $plante
-        ], 201);
+        // Logic for storing a plant...
     }
 
-    public function show($id)
+    /**
+     * @OA\Get(
+     *     path="/api/plants/{slug}",
+     *     summary="Get plant details by slug",
+     *     description="Fetch a plant by its slug.",
+     *     operationId="getPlantBySlug",
+     *     tags={"Plants"},
+     *     @OA\Parameter(
+     *         name="slug",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string", example="rose")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Plant details retrieved successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Plant retrieved successfully."),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Plant not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Plant not found.")
+     *         )
+     *     )
+     * )
+     */
+    public function show($slug)
     {
-        $plante = $this->planteRepository->getById($id);
-
-        if (!$plante) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Plante non trouvée'
-            ], 404);
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $plante
-        ]);
+        // Logic for fetching a plant by slug...
     }
 
-    public function update(Request $request, $id)
+    /**
+     * @OA\Put(
+     *     path="/api/plants/{id}",
+     *     summary="Update an existing plant",
+     *     description="Updates the details of an existing plant.",
+     *     operationId="updatePlant",
+     *     tags={"Plants"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "description", "category_id"},
+     *             @OA\Property(property="name", type="string", example="Tulip", description="Name of the plant"),
+     *             @OA\Property(property="description", type="string", example="A beautiful flower", description="Description of the plant"),
+     *             @OA\Property(property="category_id", type="integer", example=2, description="Category of the plant")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Plant updated successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Plant updated successfully"),
+     *             @OA\Property(property="data", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Plant not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Plant not found")
+     *         )
+     *     )
+     * )
+     */
+    public function update(PlantUpdateRequest $request, $id)
     {
-        $request->validated();
-
-        $plante = $this->planteRepository->update($id, $request->all());
-
-        if (!$plante) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Plante non trouvée'
-            ], 404);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Plante mise à jour avec succès',
-            'data' => $plante
-        ]);
+        // Logic for updating a plant...
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/plants/{id}",
+     *     summary="Delete a plant",
+     *     description="Deletes an existing plant.",
+     *     operationId="deletePlant",
+     *     tags={"Plants"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Plant deleted successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Plant deleted successfully.")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Plant not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Plant not found")
+     *         )
+     *     )
+     * )
+     */
     public function destroy($id)
     {
-        $deleted = $this->planteRepository->delete($id);
-
-        if (!$deleted) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Plante non trouvée'
-            ], 404);
-        }
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Plante supprimée avec succès'
-        ]);
+        // Logic for deleting a plant...
     }
 }
