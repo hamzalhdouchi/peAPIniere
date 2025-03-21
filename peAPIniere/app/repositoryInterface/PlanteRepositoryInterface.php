@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\RepositoryInterface;
 
 use App\Models\Plante;
 
@@ -8,7 +8,7 @@ interface PlanteRepositoryInterface
 {
     public function getAll();
     public function getById($id);
-    public function create(array $data);
-    public function update($id, array $data);
+    public function create( $data);
+    public function update($id, $data);
     public function delete($id);
 }

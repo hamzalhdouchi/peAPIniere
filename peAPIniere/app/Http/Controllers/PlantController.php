@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PlantStorRequest;
-use App\Repositories\PlanteRepositoryInterface;
+use APP\RepositoryInterface\PlanteRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PlantController extends Controller

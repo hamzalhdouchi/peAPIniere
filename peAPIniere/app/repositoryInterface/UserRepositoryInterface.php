@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Repositories\Interfaces;
-
-use App\Models\User;
+namespace App\RepositoryInterface;
 
 interface UserRepositoryInterface
 {
-    public function register(array $data): User;
-    public function login(array $credentials): ?string;
+    public function register($data);
+    public function login($credentials);
 }

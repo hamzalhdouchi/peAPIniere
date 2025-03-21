@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Http\Requests\userStoreRequest;
+use App\RepositoryInterface\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +17,7 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function register(RegisterRequest $request): JsonResponse
+    public function register(userStoreRequest $request): JsonResponse
     {
         try {
             $user = $this->userRepository->register($request->validated());
@@ -29,7 +29,6 @@ class UserController extends Controller
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
-                'success' => false,
                 'error' => $e->getMessage()
             ], 500);
         }
