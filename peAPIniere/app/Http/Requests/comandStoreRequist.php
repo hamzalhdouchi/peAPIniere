@@ -11,7 +11,7 @@ class comandStoreRequist extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class comandStoreRequist extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required|exists:users,id',
+    'plante_id' => 'required|exists:plantes,id',
+    'quantity' => 'required|integer|min:1',
+    'acciptaion' => 'sometimes|in:accepte,refuser',
+    'statut' => 'sometimes|in:pending,in_preparation,delivered'
         ];
     }
 }
