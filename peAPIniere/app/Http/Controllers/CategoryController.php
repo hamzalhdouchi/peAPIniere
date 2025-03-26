@@ -31,7 +31,7 @@ class CategoryController extends Controller
      */
     public function create(CategorieRequest $request)
     {
-        $data = $request->all()
+        $data = $request->all();
         $category = $this->categoryRepository->createCategory($data);
         return response()->json($category, 201);
     }

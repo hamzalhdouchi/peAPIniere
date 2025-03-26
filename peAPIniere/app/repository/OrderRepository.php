@@ -43,6 +43,6 @@ class OrderRepository implements OrderRepositoryInterface
            ->groupBy('categories.name')
            ->orderByDesc('total_sales')
            ->get();
-        return response().json(['message' => 'Sales By Category','data' => $salesByCategory],200)
+        return response().json(['message' => 'Sales By Category','data' => $salesByCategory],200);
     }
 }

@@ -24,7 +24,7 @@ class PlanteRepository implements PlanteRepositoryInterface
     public function findPlante($slug)
     {
         $plant = Plant::where('slug', $slug)->first();
-        return $plate
+        return $plate;
     }
 
 

@@ -5,9 +5,9 @@ use Illuminate\Support\Collection;
 
 interface OrderRepositoryInterface
 {
-    public function getSalesStats(): array;
+    public function getSalesStats();
 
-    public function getTopPlants(): Collection;
+    public function getTopPlants();
 
-    public function getSalesByCategory(): Collection;
+    public function getSalesByCategory();
 }

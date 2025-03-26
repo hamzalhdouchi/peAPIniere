@@ -30,6 +30,6 @@ class CategoryRepository implements CategoryRepositoryInterface
     public function getAllCategory()
     {
         $category = categorie::all();
-        return response().json(['message'=> 'the categorie is recpere successfully','data' => $category],200)
+        return response().json(['message'=> 'the categorie is recpere successfully','data' => $category],200);
     }
 }
