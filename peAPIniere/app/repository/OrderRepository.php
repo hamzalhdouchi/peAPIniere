@@ -19,7 +19,7 @@ class OrderRepository implements OrderRepositoryInterface
             ->where('statut', 'delivered')
             ->count();
 
-        return Response().json(['message' => 'statistic','total_sales' => $totalSales,'total_orders' => $totalOrders],200);
+        return Response()->json(['message' => 'statistic','total_sales' => $totalSales,'total_orders' => $totalOrders],200);
     }
 
     public function getTopPlants()
@@ -31,7 +31,7 @@ class OrderRepository implements OrderRepositoryInterface
         ->orderByDesc('total_quantity')
         ->limit(10)
         ->get();
-        return response().json(['message' => 'the top planst is get successfully','top Plant' => $TopPlants],200);
+        return response()->json(['message' => 'the top planst is get successfully','top Plant' => $TopPlants],200);
     }
 
     public function getSalesByCategory()
@@ -43,6 +43,6 @@ class OrderRepository implements OrderRepositoryInterface
            ->groupBy('categories.name')
            ->orderByDesc('total_sales')
            ->get();
-        return response().json(['message' => 'Sales By Category','data' => $salesByCategory],200);
+        return response()->json(['message' => 'Sales By Category','data' => $SalesByCategory],200);
     }
 }

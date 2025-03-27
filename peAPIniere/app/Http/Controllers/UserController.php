@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\UserDTO;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\RepositoryInterface\UserRepositoryInterface;
@@ -33,12 +34,10 @@ class UserController extends Controller
      */
     public function register(UserStoreRequest $request): JsonResponse
     {
-        try {
-            $user = $this->userRepository->register($request->validated());
-            return response()->json(['message' => 'User registered', 'data' => $user], 201);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $userDTO = new UserDTO($request->all());
+        $result = $this->userRepository->register(['name' => $userDTO->name,'email' => $userDTO->email,'password' => $userDTO->getPassword()]);
+
+        return response()->json($result, 201);
     }
 
     /**
@@ -57,7 +56,8 @@ class UserController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $authData = $this->userRepository->login($request->validated());
+        $data = $request;
+        $authData = $this->userRepository->login($data);
         if (!$authData) {
             return response()->json(['error' => 'Invalid credentials'], 401);
         }

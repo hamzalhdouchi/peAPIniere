@@ -13,7 +13,9 @@ class UserRepository implements UserRepositoryInterface
 {
     public function register( $data)
     {
-        return User::create($data);
+        $data['password'] = Hash::make($data['password']);
+        $user = User::create($data);
+        return $user;
     }
 
     public function login($data): array|null

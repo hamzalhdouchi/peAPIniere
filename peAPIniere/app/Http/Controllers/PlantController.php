@@ -38,7 +38,7 @@ class PlantController extends Controller
         if (!$request->has('search')) {
             $plants = $this->planteRepository->getAllPlantes();
         }
-        $data  = $request->all()
+        $data  = $request->all();
         $plants = $this->planteRepository->searchPlantes($request);
         return response()->json($plants, 200);
     }

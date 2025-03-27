@@ -24,14 +24,14 @@ class PlanteRepository implements PlanteRepositoryInterface
     public function findPlante($slug)
     {
         $plant = Plant::where('slug', $slug)->first();
-        return $plate;
+        return $plant;
     }
 
 
     public function getAll()
     {
         $allPlant = Plant::all();
-        return
+        return $allPlant;
     }
 
     public function getById($id)
@@ -59,6 +59,6 @@ class PlanteRepository implements PlanteRepositoryInterface
         $plante = Plant::find($id);
         $plante->delete();
 
-        return response().json(['message' => 'the plant is delete successfully'],200);
+        return response()->json(['message' => 'the plant is delete successfully'],200);
     }
 }
