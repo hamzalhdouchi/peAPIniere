@@ -66,7 +66,7 @@ class CategoryController extends Controller
      */
     public function update($id, CategorieUpdateRequest $request)
     {
-        $data = $request;
+        $data = $request->validated();
         $category = $this->categoryRepository->updateCategory($id, $data);
         return response()->json($category);
     }

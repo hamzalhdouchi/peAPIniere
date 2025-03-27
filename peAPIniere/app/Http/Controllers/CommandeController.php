@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\CommandeDTO;
+use App\Http\Requests\commandStoreRequist;
 use App\Http\Requests\commandUpdateRequist;
 use App\Repositories\CommandeRepositoryInterface;
 use Illuminate\Http\Request;
@@ -32,7 +34,8 @@ class CommandeController extends Controller
      */
     public function create(commandStoreRequist $request)
     {
-        $order = $this->orderRepository->createOrder($request);
+        $orderDTO = new CommandeDTO($request->validated());
+        $order = $this->orderRepository->createOrder($orderDTO->toArray());
         return response()->json(['message' => 'Order created.', 'order' => $order], 201);
     }
 
@@ -81,8 +84,8 @@ class CommandeController extends Controller
      */
     public function updateStatus(commandUpdateRequist $request, $id)
     {
-        $order = $this->orderRepository->updateOrderStatus($id, $request->statut);
-        return response()->json(['message' => 'Status updated.', 'order' => $order]);
+        $orderStatusDTO = new CommandeDTO($request->validated());
+        $order = $this->orderRepository->updateOrderStatus($id, $orderStatusDTO->statut);        return response()->json(['message' => 'Status updated.', 'order' => $order]);
     }
 
     /**
