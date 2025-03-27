@@ -15,6 +15,10 @@ class CommandeTest extends TestCase
     protected $commandeRepositoryMock;
     protected $commandeController;
 
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
     public function setUp(): void
     {
         parent::setUp();
@@ -108,9 +112,5 @@ class CommandeTest extends TestCase
         $response->assertJson(['message' => 'Order deleted', 'success' => true]);
     }
 
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
+   
 }
