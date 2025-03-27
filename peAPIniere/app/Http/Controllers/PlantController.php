@@ -59,7 +59,8 @@ class PlantController extends Controller
      */
     public function store(PlantStorRequest $request)
     {
-        $plant = $this->planteRepository->create($request->validated());
+        $plantDTO = new PlantDTO($request);
+        $plant = $this->planteRepository->create($plantDTO->toArray());
         return response()->json(['message' => 'Plant created successfully', 'data' => $plant], 201);
     }
 
@@ -100,7 +101,8 @@ class PlantController extends Controller
      */
     public function update(PlantUpdateRequest $request, $id)
     {
-        $plant = $this->planteRepository->update($id, $request);
+        $plantDTO = new PlantDTO($request);
+        $plant = $this->planteRepository->update($id, $plantDTO->toArray());
         return response()->json(['message' => 'Plant updated successfully', 'data' => $plant], 200);
     }
 
