@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\commandUpdateRequist;
 use App\Repositories\CommandeRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,7 @@ class CommandeController extends Controller
      *     @OA\Response(response=201, description="Order created")
      * )
      */
-    public function create(Request $request)
+    public function create(commandStoreRequist $request)
     {
         $order = $this->orderRepository->createOrder($request);
         return response()->json(['message' => 'Order created.', 'order' => $order], 201);
@@ -78,9 +79,8 @@ class CommandeController extends Controller
      *     @OA\Response(response=200, description="Order status updated")
      * )
      */
-    public function updateStatus(Request $request, $id)
+    public function updateStatus(commandUpdateRequist $request, $id)
     {
-        $request->validate(['statut' => 'required|in:pending,in_preparation,delivered']);
         $order = $this->orderRepository->updateOrderStatus($id, $request->statut);
         return response()->json(['message' => 'Status updated.', 'order' => $order]);
     }
