@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\CategoryDTO;
 use App\Http\Requests\CategorieRequest;
 use App\Http\Requests\CategorieUpdateRequest;
 use App\Models\categorie;
@@ -31,8 +32,9 @@ class CategoryController extends Controller
      */
     public function create(CategorieRequest $request)
     {
-        $data = $request->all();
-        $category = $this->categoryRepository->createCategory($data);
+        $categoryDTO = new CategoryDTO($request->validated());
+        $category = $this->categoryRepository->createCategory($categoryDTO->toArray());
+    
         return response()->json($category, 201);
     }
 
@@ -66,10 +68,11 @@ class CategoryController extends Controller
      */
     public function update($id, CategorieUpdateRequest $request)
     {
-        $data = $request->validated();
-        $category = $this->categoryRepository->updateCategory($id, $data);
+        $categoryDTO = new CategoryDTO($request->validated());
+        $category = $this->categoryRepository->updateCategory($id, $categoryDTO->toArray());
         return response()->json($category);
     }
+    
 
     /**
      * @OA\Delete(
@@ -82,7 +85,13 @@ class CategoryController extends Controller
      */
     public function delete($id)
     {
-        $this->categoryRepository->deleteCategory($id);
-        return response()->json(['message' => 'Category deleted.']);
+        $result = $this->categoryRepository->deleteCategory($id);
+    
+        if ($result) {
+            return response()->json(['message' => 'Category deleted.'], 200);
+        } else {
+            return response()->json(['message' => 'Category not found.'], 404);
+        }
     }
+    
 }
