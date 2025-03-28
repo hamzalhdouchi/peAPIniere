@@ -10,7 +10,7 @@ class PlantDTO
     public float $ptrc;
     public ?string $images;
 
-    public function __construct(array $data)
+    public function __construct( $data)
     {
         $this->slug = $data['slug'] ;
         $this->nomPlante = $data['nomPlante'];

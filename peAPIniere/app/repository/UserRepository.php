@@ -4,8 +4,6 @@ namespace App\repository;
 
 use App\Models\User;
 use App\RepositoryInterface\UserRepositoryInterface;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -14,20 +12,26 @@ class UserRepository implements UserRepositoryInterface
     public function register( $data)
     {
         $data['password'] = Hash::make($data['password']);
+
         $user = User::create($data);
         return $user;
     }
 
-    public function login($data): array|null
-    {
 
-        $user = auth::user();
-        if (!$token = JWTAuth::attempt($data)) {
-            return response()->json(['error' => 'Invalid credentials'], 401);
+    public function login($request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return false;
         }
+
+        $user = auth()->user();
+
         return [
             'user' => $user,
             'token' => $token
         ];
     }
+
 }

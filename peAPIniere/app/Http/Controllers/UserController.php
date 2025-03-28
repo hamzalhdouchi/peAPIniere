@@ -32,10 +32,10 @@ class UserController extends Controller
      *     @OA\Response(response=500, description="Server error")
      * )
      */
-    public function register(UserStoreRequest $request): JsonResponse
+    public function register(UserStoreRequest $request)
     {
         $userDTO = new UserDTO($request->all());
-        $result = $this->userRepository->register(['name' => $userDTO->name,'email' => $userDTO->email,'password' => $userDTO->getPassword()]);
+        $result = $this->userRepository->register(['name' => $userDTO->name,'email' => $userDTO->email,'password' => $userDTO->getPassword(), 'role_id' => $userDTO->role_id]);
 
         return response()->json($result, 201);
     }
@@ -56,12 +56,16 @@ class UserController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $data = $request;
-        $authData = $this->userRepository->login($data);
+        $authData = $this->userRepository->login($request); 
+    
         if (!$authData) {
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
-
-        return response()->json(['message' => 'Login successful', 'user' => $authData['user'], 'token' => $authData['token']]);
+    
+        return response()->json([
+            'message' => 'Login successful',
+            'user' => $authData['user'],
+            'token' => $authData['token']
+        ]);
     }
 }

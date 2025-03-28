@@ -10,6 +10,7 @@ use Spatie\Sluggable\SlugOptions;
 class Plant extends Model
 {
     use HasFactory, HasSlug;
+    use HasSlug;
 
     protected $fillable = ['nomPlante', 'slug', 'description', 'ptrc', 'images'];
 
@@ -19,11 +20,13 @@ class Plant extends Model
     /**
      * Définir les options de génération de slug avec Spatie
      */
-    public function getSlugOptions()
+    
+
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
-            ->generateSlugsFrom('nomPlante')  
-            ->saveSlugsTo('slug');          
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
     }
 
     /**

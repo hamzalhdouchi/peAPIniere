@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Http\Controllers\CommandeController;
-use App\Repositories\CommandeRepositoryInterface;
+use App\RepositoryInterface\CommandeRepositoryInterface;
 use App\Http\Requests\commandStoreRequist;
 use App\Http\Requests\commandUpdateRequist;
 use Illuminate\Http\Request;

@@ -15,8 +15,9 @@ class CommandeDTO
         $this->user_id = $data['user_id'] ;
         $this->plante_id = $data['plante_id'];
         $this->quantity = $data['quantity'];
-        $this->acciptaion = $data['acciptaion'] ;
-        $this->statut = $data['statut'];
+        // $this->acciptaion = $data['acciptaion'] ;
+        // $this->statut = $data['statut'];
+
     }
 
     public function toArray(): array
@@ -25,8 +26,8 @@ class CommandeDTO
             'user_id' => $this->user_id,
             'plante_id' => $this->plante_id,
             'quantity' => $this->quantity,
-            'acciptaion' => $this->acciptaion,
-            'statut' => $this->statut,
-        ];
+        //     'acciptaion' => $this->acciptaion,
+        //     'statut' => $this->statut,
+         ];
     }
 }

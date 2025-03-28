@@ -25,8 +25,6 @@ class commandStoreRequist extends FormRequest
             'user_id' => 'required|exists:users,id',
             'plante_id' => 'required|exists:plantes,id',
             'quantity' => 'required|integer|min:1',
-            'acciptaion' => 'sometimes|in:accepte,refuser',
-            'statut' => 'sometimes|in:pending,in_preparation,delivered'
         ];
     }
 }

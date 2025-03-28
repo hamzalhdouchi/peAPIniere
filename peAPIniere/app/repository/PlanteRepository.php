@@ -17,7 +17,7 @@ class PlanteRepository implements PlanteRepositoryInterface
 
     public function searchPlantes($search)
     {
-        $plant = Plant::where('name', 'ILIKE', '%' . $search['search'] . '%')->get();
+        $plant = Plant::where('nomPlante', 'ILIKE', '%' . $search['search'] . '%')->get();
         return $plant;
     }
 
@@ -40,11 +40,19 @@ class PlanteRepository implements PlanteRepositoryInterface
         return $getplant;
     }
 
-    public function create( $data)
+    public function create($data)
     {
+        if (isset($data['image']) && $data['image']->isValid()) {
+            $path = $data['image']->store('plants', 'public');
+    
+            $data['image_path'] = $path;
+        }
+    
         $plant = Plant::create($data);
+    
         return $plant;
     }
+    
 
     public function update($id,  $data)
     {

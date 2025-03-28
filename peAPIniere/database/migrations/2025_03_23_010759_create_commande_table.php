@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('commandes', function (Blueprint $table) {
             $table->id(); 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
             $table->foreignId('plante_id')->constrained('plantes')->onDelete('cascade'); 
             $table->integer('quantity'); 
-            $table->enum('acciptaion',['accepte','refsuer'])->default('refuser');
+            $table->enum('acciptaion',['accepte','refsuer'])->default('refsuer');
             $table->enum('statut', ['pending', 'in_preparation', 'delivered'])->default('pending'); 
             $table->timestamps(); 
         });

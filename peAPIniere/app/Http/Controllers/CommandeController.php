@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\CommandeDTO;
 use App\Http\Requests\commandStoreRequist;
 use App\Http\Requests\commandUpdateRequist;
-use App\Repositories\CommandeRepositoryInterface;
+use App\RepositoryInterface\CommandeRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CommandeController extends Controller
@@ -118,5 +118,11 @@ class CommandeController extends Controller
             return response()->json(['message' => 'Delete failed', 'success' => false]);
         }
         return response()->json(['message' => 'Order deleted', 'success' => true]);
+    }
+
+    public function index()
+    {
+        $order = $this->orderRepository->getAll();
+        return $order;
     }
 }

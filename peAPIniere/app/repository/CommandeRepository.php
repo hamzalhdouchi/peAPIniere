@@ -1,7 +1,8 @@
 <?php
-namespace App\Repositories;
+namespace App\repository;
 
 use App\Models\Commande;
+use App\RepositoryInterface\CommandeRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CommandeRepository implements CommandeRepositoryInterface
@@ -15,7 +16,11 @@ class CommandeRepository implements CommandeRepositoryInterface
         return response()->json(['message' => 'the order is created successfully'],201);
     }
 
-    
+    public function getAll()
+    {
+        $order = Commande::with('User')->with('plant')->get();
+        return response()->json($order);
+    }
     public function acceptOrder( $orderId)
     {
         $order = Commande::findOrFail($orderId);

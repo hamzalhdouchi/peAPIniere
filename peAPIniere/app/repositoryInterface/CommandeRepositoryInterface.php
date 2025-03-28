@@ -1,5 +1,5 @@
 <?php
-namespace App\Repositories;
+namespace App\RepositoryInterface;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -12,4 +12,5 @@ interface CommandeRepositoryInterface
     public function updateOrderStatus($orderId, $status);
     public function getOrderStatus( $orderId);
     public function distroy($orderId);
+    public function getAll();
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\PlantDTO;
 use App\Http\Requests\PlantStorRequest;
 use App\Http\Requests\PlantUpdateRequest;
 use App\RepositoryInterface\PlanteRepositoryInterface;

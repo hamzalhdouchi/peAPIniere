@@ -9,7 +9,7 @@ class Commande extends Model
 {
     use HasFactory;
 
-    
+    protected $fillable = ['user_id', 'plante_id', 'quantity', 'acciptaion', 'status']; 
     public function User()
     {
         return $this->belongsTo(User::class);
