@@ -12,7 +12,7 @@ class CommandeRepository implements CommandeRepositoryInterface
         
         $order = Commande::create($request);
 
-        return $order;
+        return response().json(['message' => 'the order is created successfully'],201);
     }
 
     
@@ -22,7 +22,7 @@ class CommandeRepository implements CommandeRepositoryInterface
         $order->status = 'accepted'; 
         $order->save();
 
-        return $order;
+        return response().json(['message'=> 'order is accepted',true],200);
     }
 
     
@@ -32,7 +32,7 @@ class CommandeRepository implements CommandeRepositoryInterface
         $order->status = 'rejected'; 
         $order->save();
 
-        return $order;
+        return response().json(['message'=> 'order is rejected',true],200);
     }
 
     public function updateOrderStatus( $orderId,  $status)
@@ -41,14 +41,14 @@ class CommandeRepository implements CommandeRepositoryInterface
 
         $order->statut = $status;
         $order->save();
-
-        return $order;
+        return response().json(['message' => 'the update is successfully',true],200);
     }
 
     public function getOrderStatus( $orderId)
     {
         $order = Commande::findOrFail($orderId);
-        return $order->statut;
+        $data = $order->statut;
+        return response().json(['message'=> 'status is get successful',$data],200);
     }
 
     public function distroy($orderId)
@@ -57,6 +57,6 @@ class CommandeRepository implements CommandeRepositoryInterface
 
         $distroy = $order->delete();
 
-        return $distroy;    
+        return response().json(['message' => 'the command is destroy successfuly']);    
     }
 }

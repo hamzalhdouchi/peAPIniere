@@ -11,33 +11,39 @@ class PlanteRepository implements PlanteRepositoryInterface
 
     public function getAllPlantes()
     {
-        return Plant::all();
+        $plant = Plant::all();
+        return $plant;
     }
 
     public function searchPlantes($search)
     {
-        return Plant::where('name', 'ILIKE', '%' . $search['search'] . '%')->get();
+        $plant = Plant::where('name', 'ILIKE', '%' . $search['search'] . '%')->get();
+        return $plant;
     }
 
     public function findPlante($slug)
     {
-        return Plant::where('slug', $slug)->first();
+        $plant = Plant::where('slug', $slug)->first();
+        return $plate
     }
 
 
     public function getAll()
     {
-        return Plant::all();
+        $allPlant = Plant::all();
+        return
     }
 
     public function getById($id)
     {
-        return plant::findOrFail($id);
+        $getplant = plant::findOrFail($id);
+        return $getplant;
     }
 
     public function create( $data)
     {
-        return Plant::create($data);
+        $plant = Plant::create($data);
+        return $plant;
     }
 
     public function update($id,  $data)
@@ -52,5 +58,7 @@ class PlanteRepository implements PlanteRepositoryInterface
     {
         $plante = Plant::find($id);
         $plante->delete();
+
+        return response().json(['message' => 'the plant is delete successfully'],200);
     }
 }

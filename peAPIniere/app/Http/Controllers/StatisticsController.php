@@ -1,8 +1,9 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Repositories\OrderRepositoryInterface;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class StatisticsController extends Controller
 {
@@ -30,9 +31,10 @@ class StatisticsController extends Controller
      *     )
      * )
      */
-    public function salesStats()
+    public function salesStats(): JsonResponse
     {
-        // Logic for fetching sales statistics...
+        $stats = $this->orderRepository->getSalesStats();
+        return response()->json($stats);
     }
 
     /**
@@ -51,9 +53,10 @@ class StatisticsController extends Controller
      *     )
      * )
      */
-    public function topPlants()
+    public function topPlants(): JsonResponse
     {
-        // Logic for fetching top-selling plants...
+        $topPlants = $this->orderRepository->getTopPlants();
+        return response()->json(['top_plants' => $topPlants]);
     }
 
     /**
@@ -72,8 +75,9 @@ class StatisticsController extends Controller
      *     )
      * )
      */
-    public function salesByCategory()
+    public function salesByCategory(): JsonResponse
     {
-        // Logic for fetching sales by category...
+        $salesByCategory = $this->orderRepository->getSalesByCategory();
+        return response()->json(['sales_by_category' => $salesByCategory]);
     }
 }

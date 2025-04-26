@@ -9,63 +9,80 @@ use App\RepositoryInterface\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
-    
     protected $categoryRepository;
 
     public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
-        echo app()->version();
     }
 
     /**
-     * @OA/Post(
-     * path="/api/Categorie",
-     * summery="create categorie",
-     * description="creation de categorie avec son nome et desciption",
-     * tage="Categorie",
-     * @OA/RequestBody(
-     * required="True"
-     * @OA/JsonContent(
-     * required={"nome_categorie","desciption"}
-     * @OA/property(property="name_categorie",type="string",exemple="artomatique")
-     * @OA/property(property="description",type="string",exemple="the categorie")
-     * 
+     * @OA\Post(
+     *     path="/api/categories",
+     *     summary="Create a category",
+     *     tags={"Categories"},
+     *     @OA\RequestBody(@OA\JsonContent(
+     *         required={"name_categorie", "description"},
+     *         @OA\Property(property="name_categorie", type="string"),
+     *         @OA\Property(property="description", type="string")
+     *     )),
+     *     @OA\Response(response=201, description="Category created")
      * )
-     * )
-     * 
-     * )
-     * 
      */
     public function create(CategorieRequest $request)
     {
-        
-        $category = $this->categoryRepository->createCategory($request->all());
-
+        $data = $request->all()
+        $category = $this->categoryRepository->createCategory($data);
         return response()->json($category, 201);
     }
 
-
+    /**
+     * @OA\Get(
+     *     path="/api/categories",
+     *     summary="Get all categories",
+     *     tags={"Categories"},
+     *     @OA\Response(response=200, description="List of categories")
+     * )
+     */
     public function index()
     {
-        // dd(1);
-        $categorie = categorie::all();
-        return $categorie;
+        $category = $this->categoryRepository->getAllCategory();
+        return;
     }
-  
+
+    /**
+     * @OA\Put(
+     *     path="/api/categories/{id}",
+     *     summary="Update a category",
+     *     tags={"Categories"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(@OA\JsonContent(
+     *         required={"name_categorie", "description"},
+     *         @OA\Property(property="name_categorie", type="string"),
+     *         @OA\Property(property="description", type="string")
+     *     )),
+     *     @OA\Response(response=200, description="Category updated")
+     * )
+     */
     public function update($id, CategorieUpdateRequest $request)
     {
-    
-
-        $category = $this->categoryRepository->updateCategory($id, $request->all());
-
+        $data = $request;
+        $category = $this->categoryRepository->updateCategory($id, $data);
         return response()->json($category);
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/categories/{id}",
+     *     summary="Delete a category",
+     *     tags={"Categories"},
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response=200, description="Category deleted")
+     * )
+     */
     public function delete($id)
     {
         $this->categoryRepository->deleteCategory($id);
-
-        return response()->json(['message' => 'Category deleted successfully.']);
+        return response()->json(['message' => 'Category deleted.']);
     }
 }
